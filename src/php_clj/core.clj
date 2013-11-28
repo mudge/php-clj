@@ -3,7 +3,7 @@
 
 (defn- parse-int [php] (Integer. php))
 
-(defn- parse-decimal [php] (Float. php))
+(defn- parse-double [php] (Double. php))
 
 (defn- parse-string [php]
   (let [[size value] (s/split php #":" 2)
@@ -19,7 +19,7 @@
         v (when (> l 2) (subs php 2 (dec l)))]
     (case t
       "i:" (parse-int v)
-      "d:" (parse-decimal v)
+      "d:" (parse-double v)
       "s:" (parse-string v)
       "b:" (parse-boolean v)
       "N;" nil)))
