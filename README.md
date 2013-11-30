@@ -13,5 +13,5 @@ for current progress and usage.
 * [Arto Bendiken's `php-s11n`](http://wiki.call-cc.org/eggref/4/php-s11n);
 * [Brad Koch's Stack Overflow discussion "Parsing serialized PHP data with BNF
   using
-  Instaparse](http://stackoverflow.com/questions/18518499/parsing-serialized-php-data-with-bnf-using-instaparse).
+  Instaparse"](http://stackoverflow.com/questions/18518499/parsing-serialized-php-data-with-bnf-using-instaparse).
 
