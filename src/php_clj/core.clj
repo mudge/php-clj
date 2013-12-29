@@ -3,39 +3,45 @@
 
 (declare reader->clj)
 
+(defn- expect-char [reader expected]
+  (let [actual (r/read-char reader)]
+    (assert (= actual expected)
+            (str "Expected " expected " but got " actual))))
+
 (defn- parse-int [reader]
-  (r/read-char reader) ;; Discard \:
+  (expect-char reader \:)
   (-> reader (r/read-until \;) Integer.))
 
 (defn- parse-double [reader]
-  (r/read-char reader) ;; Discard \:
+  (expect-char reader \:)
   (-> reader (r/read-until \;) Double.))
 
 (defn- parse-string [reader]
-  (r/read-char reader) ;; Discard \:
+  (expect-char reader \:)
   (let [size (Integer. (r/read-until reader \:))
-        s (do (r/read-char reader) ;; Discard \"
+        s (do (expect-char reader \")
               (r/read-str reader size))]
-    (r/read-char reader) ;; Discard \"
-    (r/read-char reader) ;; Discard \;
+    (expect-char reader \")
+    (expect-char reader \;)
     s))
 
 (defn- parse-boolean [reader]
-  (r/read-char reader) ;; Discard \:
+  (expect-char reader \:)
   (= "1" (r/read-until reader \;)))
 
 (defn- parse-null [reader]
-  (r/read-char reader) ;; Discard \;
+  (expect-char reader \;)
   nil)
 
 (defn- parse-array [reader]
-  (r/read-char reader) ;; Discard \:
+  (expect-char reader \:)
   (let [n-keys (Integer. (r/read-until reader \:))
-        arr (do (r/read-char reader) ;; Discard \{
+        arr (do (expect-char reader \{)
                 (loop [acc {} n n-keys]
                   (if (zero? n) acc
-                    (recur (assoc acc (reader->clj reader) (reader->clj reader)) (dec n)))))]
-    (r/read-char reader) ;; Discard \}
+                    (recur (assoc acc (reader->clj reader) (reader->clj reader))
+                           (dec n)))))]
+    (expect-char reader \})
     arr))
 
 (defn- reader->clj [reader]
