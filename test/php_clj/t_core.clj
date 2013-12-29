@@ -23,4 +23,6 @@
   (fact "it converts arrays"
     (php->clj "a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}") => {0 1, 1 2, 2 3}
     (php->clj "a:2:{i:2;i:3;i:4;i:6;}") => {2 3, 4 6}
-    (php->clj "a:2:{s:4:\"name\";s:3:\"Bob\";s:3:\"age\";i:15;}") => {"name" "Bob", "age" 15}))
+    (php->clj "a:2:{s:4:\"name\";s:3:\"Bob\";s:3:\"age\";i:15;}") => {"name" "Bob", "age" 15}
+    (php->clj "a:2:{s:4:\"name\";s:3:\"Bob\";s:7:\"numbers\";a:2:{i:0;i:1;i:1;i:2;}}") => {"name" "Bob", "numbers" {0 1, 1 2}}
+    (php->clj "a:1:{s:7:\"\"Hey}{\"\";s:3:\"i:0\";}") => {"\"Hey}{\"" "i:0"}))
