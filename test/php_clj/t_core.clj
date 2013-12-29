@@ -13,8 +13,10 @@
        (fact "it converts strings"
              (php->clj "s:12:\"Hello world!\";") => "Hello world!"
              (php->clj "s:6:\"Café!\";") => "Café!"
+             (php->clj "s:3:\"♥\";") => "♥"
              (php->clj "s:10:\"Hey \"Bob!\"\";") => "Hey \"Bob!\""
-             (php->clj "s:0:\"\";") => "")
+             (php->clj "s:0:\"\";") => ""
+             (php->clj "s:1:\";\";") => ";")
        (fact "it converts booleans"
              (php->clj "b:0;") => false
              (php->clj "b:1;") => true)
@@ -25,6 +27,7 @@
              (php->clj "a:2:{i:2;i:3;i:4;i:6;}") => {2 3, 4 6}
              (php->clj "a:2:{s:4:\"name\";s:3:\"Bob\";s:3:\"age\";i:15;}") => {"name" "Bob", "age" 15}
              (php->clj "a:2:{s:4:\"name\";s:3:\"Bob\";s:7:\"numbers\";a:2:{i:0;i:1;i:1;i:2;}}") => {"name" "Bob", "numbers" {0 1, 1 2}}
-             (php->clj "a:1:{s:7:\"\"Hey}{\"\";s:3:\"i:0\";}") => {"\"Hey}{\"" "i:0"})
+             (php->clj "a:1:{s:7:\"\"Hey}{\"\";s:3:\"i:0\";}") => {"\"Hey}{\"" "i:0"}
+             (php->clj "a:1:{s:1:\";\";s:3:\"}{;\";}") => {";" "}{;"})
        (fact "throws on invalid input"
              (php->clj "Not real PHP") => (throws #"Expected ; but got o")))
