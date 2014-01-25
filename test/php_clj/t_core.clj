@@ -31,3 +31,22 @@
              (php->clj "a:1:{s:1:\";\";s:3:\"}{;\";}") => {";" "}{;"})
        (fact "throws on invalid input"
              (php->clj "Not real PHP") => (throws #"Expected ; but got o")))
+
+(facts "about `clj->php`"
+       (fact "it converts nil"
+             (clj->php nil) => "N;")
+       (fact "it converts booleans"
+             (clj->php true) => "b:1;"
+             (clj->php false) => "b:0;")
+       (fact "it converts integers"
+             (clj->php 3) => "i:3;"
+             (clj->php -2) => "i:-2;")
+       (fact "it converts doubles"
+             (clj->php 3.2) => "d:3.2;"
+             (clj->php 1.0) => "d:1.0;")
+       (fact "it converts strings"
+             (clj->php "foo") => "s:3:\"foo\";"
+             (clj->php "café") => "s:5:\"café\";")
+       (fact "it converts maps"
+             (clj->php {0 1, 1 2, 2 3}) => "a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}"
+             (clj->php {"name" "Bob", "numbers" {0 1, 1 2}}) => "a:2:{s:7:\"numbers\";a:2:{i:0;i:1;i:1;i:2;}s:4:\"name\";s:3:\"Bob\";}"))

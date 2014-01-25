@@ -2,6 +2,7 @@
   (:require [php_clj.reader :as r]))
 
 (declare reader->clj)
+(declare clj->php)
 
 (defn- expect-char [reader expected]
   (let [actual (r/read-char reader)]
@@ -56,3 +57,32 @@
 (defn php->clj [php]
   (let [reader (r/buffered-input-stream php)]
     (reader->clj reader)))
+
+(defn- encode-string [^String clj]
+  (let [bytes (-> clj .getBytes count)]
+    (str "s:" bytes ":\"" clj "\";")))
+
+(defn- encode-float [clj]
+  (str "d:" clj ";"))
+
+(defn- encode-int [clj]
+  (str "i:" clj ";"))
+
+(defn- encode-map [clj]
+  (str (reduce (fn [php keyval]
+                 (str php
+                      (clj->php (key keyval))
+                      (clj->php (val keyval))))
+               (str "a:" (count clj) ":{")
+               clj)
+       "}"))
+
+(defn clj->php [clj]
+  (cond
+    (map? clj)      (encode-map clj)
+    (string? clj)   (encode-string clj)
+    (float? clj)    (encode-float clj)
+    (integer? clj)  (encode-int clj)
+    (true? clj)     "b:1;"
+    (false? clj)    "b:0;"
+    (nil? clj)      "N;"))
