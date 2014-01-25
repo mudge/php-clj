@@ -22,6 +22,16 @@ See the [test
 suite](https://github.com/mudge/php-clj/blob/master/test/php_clj/t_core.clj)
 for usage.
 
+## Installation
+
+php-clj is available on [Clojars](https://clojars.org/php-clj), add the
+following to your [Leiningen](https://github.com/technomancy/leiningen)
+dependencies:
+
+```clojure
+[php-clj "0.1.0"]
+```
+
 ## References
 
 * [Arto Bendiken's `php-s11n`](http://wiki.call-cc.org/eggref/4/php-s11n);
