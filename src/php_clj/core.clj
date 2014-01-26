@@ -80,7 +80,7 @@
 (defn- encode-collection [clj]
   (str "a:"
        (count clj) ":{"
-       (apply str (keep-indexed #(str (clj->php %) (clj->php %2)) clj))
+       (apply str (map-indexed #(str (clj->php %) (clj->php %2)) clj))
        "}"))
 
 (defn clj->php [clj]
