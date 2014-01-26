@@ -77,9 +77,16 @@
                clj)
        "}"))
 
+(defn- encode-collection [clj]
+  (str "a:"
+       (count clj) ":{"
+       (apply str (keep-indexed #(str (clj->php %) (clj->php %2)) clj))
+       "}"))
+
 (defn clj->php [clj]
   (cond
     (map? clj)      (encode-map clj)
+    (coll? clj)     (encode-collection clj)
     (string? clj)   (encode-string clj)
     (float? clj)    (encode-float clj)
     (integer? clj)  (encode-int clj)

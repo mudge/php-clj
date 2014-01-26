@@ -1,4 +1,4 @@
-(defproject php-clj "0.1.0"
+(defproject php-clj "0.2.0"
   :description "Deserialize PHP into Clojure data structures and back again."
   :url "https://github.com/mudge/php-clj"
   :license {:name "Eclipse Public License"

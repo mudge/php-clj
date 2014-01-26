@@ -21,6 +21,9 @@ data structures and vice versa.
 
 (clj->php "Café")
 ;; => "s:5:\"Café\";"
+
+(clj->php {"name" "Bob"})
+;; => "a:1:{s:4:\"name\";s:3:\"Bob\";}"
 ```
 
 ## A Note on PHP Arrays
@@ -36,7 +39,7 @@ following to your [Leiningen](https://github.com/technomancy/leiningen)
 dependencies:
 
 ```clojure
-[php-clj "0.1.0"]
+[php-clj "0.2.0"]
 ```
 
 ## References
