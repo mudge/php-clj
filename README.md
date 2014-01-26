@@ -49,3 +49,8 @@ dependencies:
   using
   Instaparse"](http://stackoverflow.com/questions/18518499/parsing-serialized-php-data-with-bnf-using-instaparse).
 
+## License
+
+Copyright © 2014 Paul Mucur.
+
+Distributed under the Eclipse Public License, the same as Clojure.
