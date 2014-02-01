@@ -1,4 +1,5 @@
 (ns php_clj.t-core
+  (:require [ordered.map :refer [ordered-map]])
   (:use midje.sweet)
   (:use [php_clj.core]))
 
@@ -50,6 +51,9 @@
        (fact "it converts maps"
              (clj->php {0 1, 1 2, 2 3}) => "a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}"
              (clj->php {"name" "Bob", "numbers" {0 1, 1 2}}) => "a:2:{s:7:\"numbers\";a:2:{i:0;i:1;i:1;i:2;}s:4:\"name\";s:3:\"Bob\";}")
+       (fact "it converts ordered maps"
+             (clj->php (ordered-map 0 1, 1 2, 2 3)) => "a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}"
+             (clj->php (ordered-map "name" "Bob", "numbers" (ordered-map 0 1, 1 2))) => "a:2:{s:4:\"name\";s:3:\"Bob\";s:7:\"numbers\";a:2:{i:0;i:1;i:1;i:2;}}")
        (fact "it converts sequences"
              (clj->php [1 2 3]) => "a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}"
              (clj->php [true false nil]) => "a:3:{i:0;b:1;i:1;b:0;i:2;N;}"

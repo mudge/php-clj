@@ -1,5 +1,6 @@
 (ns php_clj.core
-  (:require [php_clj.reader :as r]))
+  (:require [php_clj.reader :as r]
+            [ordered.map :refer [ordered-map]]))
 
 (declare reader->clj)
 (declare clj->php)
@@ -38,7 +39,7 @@
   (expect-char reader \:)
   (let [n-keys (Integer. (r/read-until reader \:))
         arr (do (expect-char reader \{)
-                (loop [acc {} n n-keys]
+                (loop [acc (ordered-map) n n-keys]
                   (if (zero? n) acc
                     (recur (assoc acc (reader->clj reader) (reader->clj reader))
                            (dec n)))))]
