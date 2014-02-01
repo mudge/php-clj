@@ -46,6 +46,17 @@
     (expect-char reader \})
     arr))
 
+(defn- array? [coll]
+  (loop [i 0 indices (keys coll)]
+    (cond
+      (nil? (seq indices)) true
+      (= i (first indices)) (recur (inc i) (next indices))
+      :else false)))
+
+(defn- parse-vector [array]
+  (if (array? array) (-> array vals vec)
+    array))
+
 (defn- reader->clj [reader]
   (case (r/read-char reader)
     \i (parse-int reader)
@@ -53,7 +64,7 @@
     \s (parse-string reader)
     \b (parse-boolean reader)
     \N (parse-null reader)
-    \a (parse-array reader)))
+    \a (parse-vector (parse-array reader))))
 
 (defn php->clj [php]
   (let [reader (r/buffered-input-stream php)]
