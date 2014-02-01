@@ -32,16 +32,42 @@ data structures and vice versa.
 ## A Note on PHP Arrays
 
 As [PHP's Arrays](http://www.php.net/manual/en/language.types.array.php) are
-actually ordered maps, converting an array such as `array("name" => "Bob",
-"age" => 42)` will result in an [ordered
-map](https://github.com/flatland/ordered) equivalent to `{"name" "Bob", "age"
-42}`. Note that Clojure's standard map implementation does not retain
+actually ordered maps, converting an array such as:
+
+```php
+array(
+    "name" => "Bob",
+    "age" => 42
+)
+```
+
+Will result in an [ordered
+map](https://github.com/flatland/ordered) equivalent to the following:
+
+```clojure
+{"name" "Bob", "age" 42}
+```
+
+Note that Clojure's standard map implementation does not retain
 insertion order (and [ArrayMaps are only suitable for "very small
 maps"](http://clojure.org/data_structures#Data%20Structures-ArrayMaps)) hence
 the use of the `ordered-map` type.
 
-Arrays with consecutive indices starting at 0 (e.g. `array(0 => "a", 1 => "b",
-2 => "c")`) will be converted into vectors (e.g. `["a" "b" "c"]`).
+Arrays with consecutive indices starting at 0 such as
+
+```php
+array(
+    0 => "a",
+    1 => "b",
+    2 => "c"
+)
+```
+
+Will be converted into vectors like so:
+
+```clojure
+["a" "b" "c"]
+```
 
 ## Installation
 
