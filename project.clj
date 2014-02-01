@@ -1,4 +1,4 @@
-(defproject php-clj "0.3.0"
+(defproject php-clj "0.4.0"
   :description "Deserialize PHP into Clojure data structures and back again."
   :url "https://github.com/mudge/php-clj"
   :dependencies [[ordered "1.3.2"]]
