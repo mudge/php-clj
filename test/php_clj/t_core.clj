@@ -1,7 +1,11 @@
+;; Copyright (c) 2014, Paul Mucur (http://mudge.name)
+;; Released under the Eclipse Public License:
+;; http://www.eclipse.org/legal/epl-v10.html
+
 (ns php_clj.t-core
-  (:require [ordered.map :refer [ordered-map]])
-  (:use midje.sweet)
-  (:use [php_clj.core]))
+  (:require [ordered.map :refer [ordered-map]]
+            [midje.sweet :refer :all]
+            [php_clj.core :refer :all]))
 
 (facts "about `php->clj`"
        (fact "it converts integers"

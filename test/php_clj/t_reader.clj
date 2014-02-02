@@ -1,6 +1,10 @@
+;; Copyright (c) 2014, Paul Mucur (http://mudge.name)
+;; Released under the Eclipse Public License:
+;; http://www.eclipse.org/legal/epl-v10.html
+
 (ns php_clj.t-reader
-  (:use midje.sweet)
-  (:require [php_clj.reader :as r]))
+  (:require [php_clj.reader :as r]
+            [midje.sweet :refer :all]))
 
 (def input (r/buffered-input-stream "s:2:\"é\";"))
 

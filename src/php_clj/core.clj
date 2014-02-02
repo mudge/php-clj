@@ -1,5 +1,10 @@
+;; Copyright (c) 2014, Paul Mucur (http://mudge.name)
+;; Released under the Eclipse Public License:
+;; http://www.eclipse.org/legal/epl-v10.html
+
 (ns php_clj.core
   (:require [php_clj.reader :as r]
+            [clojure.string :as s]
             [ordered.map :refer [ordered-map]]))
 
 (declare reader->clj)
@@ -41,12 +46,12 @@
         arr (do (expect-char reader \{)
                 (loop [acc (ordered-map) n n-keys]
                   (if (zero? n) acc
-                    (recur (assoc acc (reader->clj reader) (reader->clj reader))
-                           (dec n)))))]
+                      (recur (assoc acc (reader->clj reader) (reader->clj reader))
+                             (dec n)))))]
     (expect-char reader \})
     arr))
 
-(defn- array? [coll]
+(defn- one-dimensional-array? [coll]
   (loop [i 0 indices (keys coll)]
     (cond
       (nil? (seq indices)) true
@@ -54,7 +59,7 @@
       :else false)))
 
 (defn- parse-vector [array]
-  (if (array? array) (-> array vals vec)
+  (if (one-dimensional-array? array) (-> array vals vec)
     array))
 
 (defn- reader->clj [reader]
@@ -66,7 +71,15 @@
     \N (parse-null reader)
     \a (parse-vector (parse-array reader))))
 
-(defn php->clj [php]
+(defn php->clj
+  "Converts serialized PHP into equivalent Clojure data structures.
+
+  Note that one-dimensional PHP arrays (those with consecutive indices starting
+  at 0 such as array(1, 2, 3)) will be converted to vectors while all others
+  will be converted to ordered maps therefore preserving insertion order.
+
+  Example: (php->clj \"a:2:{i:0;i:1;i:1;i:2;}\")"
+  [php]
   (let [reader (r/buffered-input-stream php)]
     (reader->clj reader)))
 
@@ -92,10 +105,14 @@
 (defn- encode-collection [clj]
   (str "a:"
        (count clj) ":{"
-       (apply str (map-indexed #(str (clj->php %) (clj->php %2)) clj))
+       (s/join (map-indexed #(str (clj->php %) (clj->php %2)) clj))
        "}"))
 
-(defn clj->php [clj]
+(defn clj->php
+  "Converts Clojure data structures into serialized PHP.
+
+  Example: (clj->php [1 2 3])"
+  [clj]
   (cond
     (map? clj)      (encode-map clj)
     (coll? clj)     (encode-collection clj)
