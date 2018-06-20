@@ -5,7 +5,7 @@
 (ns php_clj.core
   (:require [php_clj.reader :as r]
             [clojure.string :as s]
-            [ordered.map :refer [ordered-map]]))
+            [flatland.ordered.map :refer [ordered-map]]))
 
 (declare reader->clj)
 (declare clj->php)
