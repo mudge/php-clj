@@ -1,7 +1,7 @@
 (defproject php-clj "0.4.1"
   :description "Deserialize PHP into Clojure data structures and back again."
   :url "https://github.com/mudge/php-clj"
-  :dependencies [[ordered "1.3.2"]]
+  :dependencies [[org.flatland/ordered "1.5.6"]]
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :profiles {:dev {:dependencies [[midje "1.5.1"]]
